@@ -25,14 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const memoryIndex = memoryStars.indexOf(i);
       if (memoryIndex !== -1) {
-        // Anı yıldızıysa SADECE memory-star sınıfını ekle
         star.classList.add("memory-star");
         star.dataset.memory = memories[memoryIndex];
-        // Biraz daha büyük ve belirgin yapalım
         star.style.width = `${Math.random() * 3 + 10}px`;
         star.style.height = star.style.width;
       } else {
-        // Normal yıldızsa star sınıfını ekle
         star.classList.add("star");
         const size = Math.random() * 2 + 1;
         star.style.width = `${size}px`;
@@ -655,3 +652,49 @@ document.addEventListener("DOMContentLoaded", () => {
   scenes.forEach((scene) => observer.observe(scene));
   createFinalQuote();
 });
+// SİMLERİ OLUŞTURAN FONKSİYON
+function createSneezeDust() {
+  // Önce varsa eski tozları temizle
+  document.querySelectorAll(".light-dust").forEach((el) => el.remove());
+
+  const dustCount = 50; // Kaç tane sim olsun?
+  // Güneş o sahnede nerede? (Scene 15'te left: 42%, top: 50% civarında olacak)
+  const sunCenterX = 42;
+  const sunCenterY = 50;
+
+  for (let i = 0; i < dustCount; i++) {
+    const dust = document.createElement("div");
+    dust.classList.add("light-dust");
+
+    // Güneşin etrafına rastgele dağıt
+    // X ekseninde %30 ile %54 arası, Y ekseninde %40 ile %60 arası
+    const randomX = sunCenterX + (Math.random() * 24 - 12);
+    const randomY = sunCenterY + (Math.random() * 20 - 10);
+
+    dust.style.left = `${randomX}%`;
+    dust.style.top = `${randomY}%`;
+
+    // Rastgele boyutlar (küçük ve büyük simler)
+    const size = Math.random() * 4 + 2;
+    dust.style.width = `${size}px`;
+    dust.style.height = `${size}px`;
+
+    // Hafifçe yanıp sönmeleri için gecikme
+    dust.style.animationDelay = `${Math.random() * 0.5}s`;
+
+    universe.appendChild(dust);
+  }
+}
+
+// SİMLERİ DÜŞÜREN VE SİLEN FONKSİYON
+function removeSneezeDust() {
+  const dusts = document.querySelectorAll(".light-dust");
+  dusts.forEach((dust) => {
+    dust.classList.add("falling"); // CSS'teki düşme efektini tetikle
+  });
+
+  // 2 saniye sonra tamamen DOM'dan sil (performans için)
+  setTimeout(() => {
+    dusts.forEach((dust) => dust.remove());
+  }, 2000);
+}
