@@ -24,13 +24,14 @@
           #0f1520 0%,
           #050505 100%
         );
-        height: 100vh;
+        min-height: 100vh; /* height yerine min-height kullandık */
         display: flex;
         flex-direction: column;
         align-items: center;
         font-family: "Lato", sans-serif;
         color: #fff;
-        overflow: hidden;
+        overflow-x: hidden; /* Sadece yan taşmayı engelle */
+        overflow-y: auto; /* Dikey kaydırmaya izin ver */
       }
 
       /* --- BAŞLIK ALANI --- */
@@ -228,6 +229,11 @@
         }
         p.subtitle {
           font-size: 1rem;
+        }
+
+        body {
+          height: auto; /* Mobilde yüksekliği serbest bırak */
+          overflow-y: scroll; /* Mobilde kesinlikle kaydırmayı aç */
         }
 
         /* Kitaplığı dikey hale getir */
